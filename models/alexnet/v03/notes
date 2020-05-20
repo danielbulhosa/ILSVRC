@@ -1,0 +1,23 @@
+In this run we trained the following reduced model:
+
+Model: "sequential_1"
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv2d_1 (Conv2D)            (None, 56, 56, 96)        34944     
+_________________________________________________________________
+max_pooling2d_1 (MaxPooling2 (None, 27, 27, 96)        0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 69984)             0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 1000)              69985000  
+=================================================================
+Total params: 70,019,944
+Trainable params: 70,019,944
+Non-trainable params: 0
+_________________________________________________________________
+None
+
+It achieved 82% Top-1 Accuracy and 93% Top-5 Accuracy. For the validation set these measures were 3% and 9% respectively. The model aggressively overfit, but was sufficiently powerful to do so over all 1,000 classes!
+
+We will try adding all of the convolutional layers back next to see if we can achieve similar results.

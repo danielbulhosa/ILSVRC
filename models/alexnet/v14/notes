@@ -1,0 +1,21 @@
+Same as v13 but increasing bias and weight regularization by 10x to
+0.00005. This is 10x lower than the original 0.0005 regularization
+coefficient in the paper. We hope the results will fall somewhere between
+the 0.0005 and 0.000005 case.
+
+Looks like this is behaving closer to the 0.000005 case than the 0.0005 case.
+Unfortunately this means that it seems the model overfits. Some ideas:
+
+- Try making class prediction for the 10 transformations described in paper and take average (Test Time Augmentation)
+- Continue training from epoch 10 of v10 without reducing learning rate, maybe we reduced it too soon...
+- Check that there aren't bugs in LRN
+- Change the weight initialization to clipped Gaussian, generally try different initializations
+- Replace LRN with batch normalization (would also validate/support first point)
+- Try 0.0001 weight decay coefficient, or some other weight in between
+- Try 0.001 weight decay coefficient, since even the 0.0005 case seems to be overfitting
+- Reduce learning rate before overfitting starts to occur in the 0.00005 case (after epoch 5?)
+- Generally use a more handtuned learning rate (which is what authors did)
+- Eliminate bias regularization (seemed to do next to nothing in previous experiments, so unpromising)
+- Try Nesterov optimization (this introduces a whole slew of complications)
+- Check there isn't a problem in the validation set? (Doubt it, we already checked thoroughly) Check generators for differences though!
+- Double check data augmentation?

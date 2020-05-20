@@ -1,0 +1,27 @@
+Same as v16 but decreasing batch size back to 128 as learning 
+seems to have worked better then. 
+
+We found an error in the generator! We were not applying the 
+training generator's transformations to the training data. 
+We were accidentally applying the validation transformations,
+which are just a center crop. The missing data augmentation may
+just be the regularization that's been missing! This aligns with
+one of our hypotheses for what was wrong: namely that something
+was wrong with the generators :) Hopefullly this is it....
+
+We're gonna lower the patience back to 3 and minimum delta to 0.01
+again just to speed up training. That way we'll know sooner what
+difference the change made relative to v15. 
+
+This run is basically v15 but with the generator problem fixed.
+
+This problem and the error with the learning rate scheduler only
+highlight the need to be more organized in the future about how
+we run experiments. I think in future projects we will save all
+parameters as key, value pairs either in a JSON or in a Python 
+dictionary. We will keep all model parameters saved so we can run
+diffs on different versions. 
+
+We don't know how many of our experiments were affected by this.
+If we knew we could make a more informed decision of how to run this
+current experiment...

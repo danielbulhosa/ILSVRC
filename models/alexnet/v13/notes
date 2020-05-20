@@ -1,0 +1,2 @@
+Same as v12 but now with bias and weight L2 loss weights of 
+0.000005 instead of 0.0005.

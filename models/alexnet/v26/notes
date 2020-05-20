@@ -1,0 +1,34 @@
+Same as v25 but starting at epoch 42 from the v25 loaded 
+weights and changing the learning schedule so the learning
+rate reduces by 10x. We start at a learning rate of 10^{-5}.
+We found the learning schedule reducing the learning rate by
+2x to be too slow. We think with a faster learning rate decay
+we can get the model to converge faster based on previous
+experiments. We don't believe v25 will have enough time to
+converge to its asymptote.
+
+Decided to pause training and manually restart with 10x 
+lower learning rate to see if we get enough of a performance
+increase to justify continuing this experiment. We think
+we should explore removing regularization now to attain the
+right performance.
+
+Some ideas:
+- Remove BN layers before fully connected layers
+- Remove extra LRN layers
+- Remove dropout 
+- Remove bias and kernel regularization
+- Remove extra image augmentation
+
+Given that the train loss is lower than the validation loss
+we suspect the regularization that made this mode not 
+overfit was either the extra image augmentation or the extra
+dropout. Thus we're interested in dropping LRN first to see
+if we can keep the performance. We think the dropout isn't doing
+much either though because when we added it previously with
+batch normalization it didn't do much. Thus we suspect the 
+improvement is because of teh image augmentation. 
+
+It would be interesting though to try removing bias 
+regularization to apply Josh Tobin's approach and see
+how far this high regularized Alexnet can go.

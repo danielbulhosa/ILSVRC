@@ -1,0 +1,11 @@
+Same as v15 but we revert to the original patience and loss threshold.
+We think setting the patience to 3 epochs was a bit aggressive and we
+may have missed out on further optimization. We don't have a clear idea 
+of the delta threshold yet, and we think later in training a smaller delta
+may be better. Thus we're going to reduce it back to 0.0001 and increase the
+patience back to 10.
+
+We are also going to try to increase the batch size. The GPU has been running
+at 70% and we think there may be room to increase utilization. We're going to give 
+it a shot and see it we can do it without crashing the job.
+

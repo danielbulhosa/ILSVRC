@@ -1,0 +1,42 @@
+Same as v18 but fixed an error in training augmentation that
+was not standardizing the eigenvector shifts. This in turn was
+reducing the range of possible augmentations which may be limiting
+regularization. 
+
+May be worth checking LRN before running this? Yes... We did check
+with some simple tensors and got exactly the results we expected 
+(basically manually inspected some simple unit tests). We don't think
+there's an issue with the layer as it is then. 
+
+We may tweak the LRN hyperparameters to regularize a little bit more.
+
+We'll also increase the patience a bit to 5 and reduce the minimum delta
+back to 0.0001. 
+
+Note on LRN hyperparameters:
+
+We had the realization that since the activation values directly factor 
+into the calculation of the denominator for LRN that the value of the
+constants k and alpha really matter. This is because alpha * \sum{a^2}
+will either overwhelm or be totally overwhelmed by k depending on their
+relative orders of magnitude. We believe alpha = 10^{-4} worked in the
+original paper because the a's were O(10^2) and they were squared so
+a^2 was O(10^4) which means that sum{a^2} would have been somewhere 
+in the range O(10^4) and O(10^6). Thus the complete product
+alpha * \sum(a^2} is O(1) to O(10^2). Thus the complete product would be
+of comparable or larger size relative to k which is O(1).
+
+However, since we normalized and standardized our data in our case 
+a^2 is of O(1) so \sum{a^2} is between O(1) and O(10^2) and thus the
+full product alpha * \sum{a^2} is O(10^{-4}) to O(10^{-2})! This is 
+easily drowned out by k which is O(1) in our model. Thus we expect that
+the LRN layers are not really doing anything in our model with the current
+choice of parameters! 
+
+We will update the parameters. We believe it would be best if the denominator
+is close to O(1) or so overall. At the very least the order of magnitude should
+match what it was in the original model. To achieve this we will attempt setting
+alpha between 10^{-2} and 1 which should get us in the right range. We may also tweak 
+k but that will come second. Since n influences which layers interact with one another
+(which is the same in our model and the original) and beta is not affected by
+normalization (up to a constant approximately) we will leave these parameters unchaged.

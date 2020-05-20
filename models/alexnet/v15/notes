@@ -1,0 +1,29 @@
+Same as v12 but fixed error with learning rate scheduler that looked 
+at whether loss had stopped decreasing. This was a mistake on our part, 
+we misinterpreted the meaning of the parameter.
+
+We also reduced the patience to 3 and increased in the minimum delta to 0.01
+to be consistent with the loss changes we can monitor during training. Also,
+when we have seen the loss plateau in previous trainings it is at this order of
+magnitude, not lower. 
+
+This addresses two points we made in v14: 
+
+1) That we should continue the training of v10/v12 (essentially the same) longer 
+   before reducing learning rate, since loss had not plateaud yet. The bug fix
+   addresses this.
+2) We should be more particular about our choice of learning rate scheduler. The 
+   patience and minimum delta changes should address this. 
+
+We believe testing TTA on the model resulting from this experiment will be more
+promising than testing TTA on the current v10/v12 models. If all of this doesn't
+work we'll take a look at the LRN, whether it has bugs, and maybe try replacing it
+with batch normalization.
+
+We chose to repeat v10/v12 because they overfit the least, and seemed to have a lot
+of room for improvement. Thus we think they have the most promise for this approach.
+
+We train again from the main model file, which has all of the necessary changes.
+
+We run for 90 epochs so we don't have to worry about reinitializing the learning 
+schedule counter. We can always stop early if the run starts looking unpromising.
