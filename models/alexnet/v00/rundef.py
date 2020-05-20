@@ -11,6 +11,8 @@ from shared.custom_layers.local_response_normalization import lrn_parametric, lr
 from shared.generators.augmentation_list import AugmentationList
 import shared.definitions.paths as paths
 import albumentations
+import os
+from os import path
 
 """
 Model Definition
@@ -136,14 +138,22 @@ scheduler_params = {'factor': 0.1,
 
 scheduler = call.ReduceLROnPlateau(**scheduler_params)
 
+log_dir = paths.models + 'alexnet/v{:02d}/logs'.format(version)
+checkpoint_dir = paths.models + 'alexnet/v{:02d}/checkpoints'.format(version)
+
+if not path.isdir(checkpoint_dir):
+    os.mkdir(checkpoint_dir)
+
+if not path.isdir(log_dir):
+    os.mkdir(log_dir)
+
 # Experiment directory format is {model}/{version}/{filetype}
-tensorboard_params = {'log_dir': paths.models + 'alexnet/v{:02d}/logs'.format(version),
+tensorboard_params = {'log_dir': log_dir,
                       'batch_size': train_batch_size,
                       'write_grads': True,
                       'write_images': True}
 
-checkpointer_params = {'filepath': paths.models + 'alexnet/v{:02d}/checkpoints'.format(version)
-                                   + '/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
+checkpointer_params = {'filepath': checkpoint_dir + '/weights.{epoch:02d}-{val_loss:.2f}.hdf5',
                        'verbose': 1}
 
 """
