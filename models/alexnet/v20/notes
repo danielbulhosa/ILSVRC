@@ -1,0 +1,14 @@
+Same as v19:
+
+- Weight and bias regularization at 0.0001
+- Patience at 5 and min delta at 0.0001 
+- Full Alexnet architecture
+- All fixes to generators already made
+- Batch size equal to 128
+- TTA available
+
+But:
+- Increasing alpha in LRN to 1!
+
+See the notes in the v19 file for more details.
+

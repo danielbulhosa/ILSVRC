@@ -1,0 +1,9 @@
+The same as v25 but removing LRN and dropout. We're basically
+just testing image augmentations to see if this will give us
+the regularization boost we need relative to v24 and v23. 
+We will also removed batch normalization from the fully connected
+layers.
+
+We expect the convergence behavior will be close to v24 when 
+optimizing for validation accuracy so it'll likely take a
+little while to run this one.

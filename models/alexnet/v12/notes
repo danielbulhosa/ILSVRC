@@ -1,0 +1,8 @@
+Have a feeling I made a typo with the bias regularization weight decay. It
+should be 0.0005 instead of 0.005. v12 is the same as v10 but reducing weight
+decay for bias terms to 0.0005 instead of 0.005. This is the same as v11, but adding
+weight and bias regularization of magnitude 0.0005. 
+
+If this doesn't work we'll try removing bias regularization altogether. If that
+overfits or fails generally perhaps we do need bias regularization but a higher
+initial learning rate.

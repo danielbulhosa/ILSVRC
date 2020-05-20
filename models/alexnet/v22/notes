@@ -1,0 +1,19 @@
+Same as v20 but reducing alpha to 0.1 and k to 0.2 so that
+output weights are O(1), which is a best practice. We don't
+expect this to have a major effect.
+
+We increased the magnitude of image perturbations from 0.1
+to 1. We manually perturbed individual images and found that:
+
+- The eigenvalues of the covariance matrix are tiny 
+- Because of this at scale 0.1 the perturbations look a lot
+  like the original image
+- We manually tried out perturbations at scale 1 and the 
+  perturbations tended to stay within one sigma! Furthermore
+  even looking at the perturbed output visually it looked
+  enough like the original image to be recognizeable.
+
+We're hoping that more aggressive augmentation will lead to
+better regularization. We may try slightly increasing weight
+and bias regularization to get the asymptote of accuracy closer
+to our target, if the asymptote doesn't reduce in this experiment.

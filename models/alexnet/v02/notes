@@ -1,0 +1,7 @@
+Notes
+
+- This run was made with all regularization removed
+- We ran using he normalization
+- We ran with the full dataset
+- We observed the loss plateau at 6.9 (random guessing) basically from the beginning of training
+- We ran for 15 epochs and the loss did not improve

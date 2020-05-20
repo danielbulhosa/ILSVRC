@@ -1,0 +1,29 @@
+Same as v22 but reducing image augmentation scale back
+to 0.1 from 1. Keeping the changes to LRN parameters.
+
+We're also gonna try to schedule learning rate reductions based
+on the accuracy plateauing instead of on the loss.
+
+We meant to add LRN layers to all convolutional layers but did not
+by accident Thus this suggests most of the regularization in v22
+came from the changes to LRN rather than the increased data 
+augmentation. This makes us reconsider re-adding it, since 
+intuitively we think we'd get a better model from more image 
+augmentation.
+
+Making the learning rate depend on the validation accuracy is
+making a huge difference in how this net learns. We're curious
+what the long tail of this will look like.
+
+It looks like we reduced overfitting by 4-5%! It's a big
+difference :D Currently we're only overfitting by 4% or so
+instead of 8-9%. These figures are for the top-1 error.
+
+
+It looks like we reduced the overfitting of the top-5 error
+by 2-3% from what was orignally 6% overfitting. So overall
+we're reduced overfitting by 30-50%.
+
+The reduction in overfit looks like it's actually less in 
+the long tail, closer to a 2% reduction for the top-1 
+accuracy and 1% for top-5.

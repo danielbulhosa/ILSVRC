@@ -1,0 +1,34 @@
+Gonna do a Hail Mary and just throw all kinds of 
+regularization onto this bad boy, see if we can move the
+needle at all. We will add to v23:
+
+- Increase the eigenvector shift scale to 1 from 0.1
+- Add batch normalization after every layer (except 
+  where there are LRN layers)
+- Add 0.2 dropout to the last 3 convolutional layers
+- Increase the batch size to 256 and increase the initial
+  learning rate by 10x. We want to try to train faster to
+  have more experiments more quickly. More regularization
+  and larger batches should help stabilize things sufficiently.
+
+## Update
+We tried these points above and generalization was horrible. 
+It dropped basically to zero (val acc.) after a couple of epochs.
+We will restart the experiment and try with extra dropout layers 
+on the last 3 convolutional layers removed.
+
+## Update 2
+Still saw horrible (althought ever so slightly better) generalization
+after removing dropout. Going to reduce learning rate to 0.0002 just in
+case. This is the only thing we changed we hadn't really tried in the past.
+We'll also reduce the minibatch size back to 128 since this has worked well
+in the past. We just wanted to see if we could train faster.
+
+
+## Update 3
+Yup it looks like it was the learning rate. We'll run the net with dropout,
+increased shift scale, and batch normalization overnight then.
+
+When we removed the learning rate increase and reduced the batch
+the problem went away. Since the problem was similar in both runs we
+don't expect dropout to be a problem. Crossing our fingers...

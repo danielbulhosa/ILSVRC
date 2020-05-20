@@ -1,0 +1,9 @@
+Same as v20 but removing LRN altogether and adding batchnorm
+after every layer, always after pooling but before dropout.
+
+Starting off a bit extreme to see if it makes any difference
+at all and getting a sense of worst case performance.
+
+We put all of the batch normalization layers after the non-linear
+activations. We may try putting them all before to see if that 
+changes anything.

@@ -1,0 +1,30 @@
+Same as v17 but reducing bias and kernel regularization 
+to 0.0001 from 0.0005. Ideally this will fall somewhere
+between v14 and v17 in terms of training error and will
+have much better validation error due to:
+
+- Fixes in learning rate scheduler
+- Fixes to the training data generation
+
+We also made an error in the generators: We flipped the
+horizonal and vertical dimensions in the cropping! We fixed
+this as well. Not sure how much of a difference this will make.
+Surprised that we didn't get any errors... We only discovered it
+because we created a version of the generator for testing that
+surfaced the issue.
+
+We finished the TTA and it added about 1.5% to the top-1 accuracy
+and 1% to the top-5 accuracy. It's a nice increase but not enough
+to make the gap. This justifies running this next experiment. So far:
+
+- We have tweaked the learning rate, and fixed the earlier decrease bug
+- Solved the bug that was causing images to not be augmented during training
+- Solved the bug that was cropping along the wrong dimensions during training
+  and validation image preprocessing
+- Tried a larger minibatch size with a proportionally larger learning rate
+- Implemented and tried out TTA on our best performing model so far
+
+If this next run doesn't produce more promising results the next thing to try
+is replacing LRN with batch normalization (eyyy!) and debugging the LRN. Besides
+that we can comb data augmentation for more bugs just in case, but it appears to
+be correct presently.

@@ -1,0 +1,3 @@
+Same as v9 but adding dropout, LRN, and weight and bias regularization.
+Running this from original alexnet_model.py file, not dev file. Need
+to double check there aren't mistakes in switching to using this file.

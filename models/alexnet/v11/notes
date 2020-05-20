@@ -1,0 +1,5 @@
+Same as v10 but eliminating bias and weight regularization.
+Keep dropout and LRN. We were able to attain 27% and 7% top-1 
+and top-5 errors respectively on the training set with this net.
+This suggests that the dropout and LRN layers are not over-regularizing
+the model.
