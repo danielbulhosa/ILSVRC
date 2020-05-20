@@ -84,7 +84,7 @@ def get_paths_and_classes(root_dir, num_classes, code_index_map=code_index_map):
     return example_paths, one_hot_classes
 
 
-def get_train_gen(batch_size, nclasses, num_batches, shift_scale, aug_list):
+def get_train_gen(batch_size, nclasses, num_datapoints, shift_scale, aug_list):
     x_paths_train, y_labels_train = get_paths_and_classes(training_dir, nclasses)
     train_indices = np.random.choice(np.arange(len(x_paths_train)), size=len(x_paths_train), replace=False)
     # Shuffle parameter in fit generator only shuffles minibatch order. Without shuffling ahead
@@ -93,8 +93,8 @@ def get_train_gen(batch_size, nclasses, num_batches, shift_scale, aug_list):
     x_paths_train, y_labels_train = np.array(x_paths_train)[train_indices].tolist(), y_labels_train[train_indices]
 
     # Filter number of minibatches processed for debugging
-    return ImagenetSequence(x_paths_train if num_batches is None else x_paths_train[:batch_size * num_batches],
-                           y_labels_train if num_batches is None else y_labels_train[:batch_size * num_batches],
+    return ImagenetSequence(x_paths_train if num_datapoints is None else x_paths_train[:num_datapoints],
+                           y_labels_train if num_datapoints is None else y_labels_train[:num_datapoints],
                            batch_size,
                            paths.training,
                            np.array(eigenvectors.tolist()),
@@ -106,7 +106,7 @@ def get_train_gen(batch_size, nclasses, num_batches, shift_scale, aug_list):
                            'train')
 
 
-def get_val_gen(batch_size, nclasses, num_batches):
+def get_val_gen(batch_size, nclasses, num_datapoints):
     x_paths_val, y_labels_val = get_paths_and_classes(validation_dir, nclasses)
     val_indices = np.random.choice(np.arange(len(x_paths_val)), size=len(x_paths_val), replace=False)
     # Shuffle parameter in fit generator only shuffles minibatch order. Without shuffling ahead
@@ -115,8 +115,8 @@ def get_val_gen(batch_size, nclasses, num_batches):
     x_paths_val, y_labels_val = np.array(x_paths_val)[val_indices].tolist(), y_labels_val[val_indices]
 
     # Filter number of minibatches processed for debugging
-    return ImagenetSequence(x_paths_val if num_batches is None else x_paths_val[:batch_size * num_batches],
-                           y_labels_val if num_batches is None else y_labels_val[:batch_size * num_batches],
+    return ImagenetSequence(x_paths_val if num_datapoints is None else x_paths_val[:num_datapoints],
+                           y_labels_val if num_datapoints is None else y_labels_val[:num_datapoints],
                            batch_size,
                            paths.validation,
                            np.array(eigenvectors.tolist()),

@@ -41,14 +41,15 @@ garbage_collection = call.LambdaCallback(on_epoch_end=lambda epoch, logs: gc.col
 
 print("Create Generators")
 """Generators"""
-train_gen = get_train_gen(rundef.train_batch_size, rundef.num_classes, rundef.num_batches, rundef.shift_scale, rundef.aug_list)
-val_gen = get_val_gen(rundef.val_batch_size, rundef.num_classes, rundef.num_batches)
+train_gen = get_train_gen(rundef.train_batch_size, rundef.num_classes, rundef.num_datapoints, rundef.shift_scale, rundef.aug_list)
+val_gen = get_val_gen(rundef.val_batch_size, rundef.num_classes, rundef.num_datapoints)
 
 
 """ Model train code """
 print("Begin Training Model")
 rundef.model.fit_generator(train_gen,
                            epochs=rundef.num_epochs,
+                           steps_per_epoch=rundef.steps_per_epoch,
                            validation_data=val_gen,
                            verbose=1,  # 0 in notebook, verbose doesn't slow down training, we checked
                            callbacks=[tensorboard,
